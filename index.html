@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ជូរអែម - Temple Jungle Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Metal&display=swap");
+    </style>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Metal", serif;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      /* Fixed background that stays in place */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        z-index: -2;
+      }
+
+      /* White overlay for background */
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.2);
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Fixed overlay div */
+      .fixed-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(
+          135deg,
+          rgba(139, 69, 19, 0.3) 0%,
+          rgba(101, 67, 33, 0.35) 50%,
+          rgba(139, 69, 19, 0.3) 100%
+        );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Background images based on screen orientation */
+      @media (orientation: landscape) {
+        body::before {
+          background-image: url("assets/horizontal-bg.png");
+        }
+      }
+
+      @media (orientation: portrait) {
+        body::before {
+          background-image: url("assets/vertical-bg.png");
+        }
+      }
+
+      .container {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        padding: 2rem 0;
+      }
+
+      .title {
+        font-size: 8rem;
+        font-weight: bold;
+        font-style: italic;
+        color: #8b4513;
+        text-shadow: 5px 5px 12px rgba(0, 0, 0, 0.6);
+        margin-bottom: 4rem;
+        text-align: center;
+        font-family: "Metal", serif;
+        letter-spacing: 3px;
+      }
+
+      .fruits-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        margin: 4rem 0;
+        max-width: 800px;
+      }
+
+      .fruit {
+        width: 150px;
+        height: 150px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        animation: float 3s ease-in-out infinite;
+        transition: transform 0.3s ease;
+        filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.3));
+      }
+
+      .fruit:hover {
+        transform: scale(1.1);
+      }
+
+      .fruit:nth-child(1) {
+        background-image: url("assets/custard.png");
+        animation-delay: 0s;
+      }
+      .fruit:nth-child(2) {
+        background-image: url("assets/durian.png");
+        animation-delay: 0.5s;
+      }
+      .fruit:nth-child(3) {
+        background-image: url("assets/logan.png");
+        animation-delay: 1s;
+      }
+      .fruit:nth-child(4) {
+        background-image: url("assets/magosteen.png");
+        animation-delay: 1.5s;
+      }
+      .fruit:nth-child(5) {
+        background-image: url("assets/palm.png");
+        animation-delay: 2s;
+      }
+      .fruit:nth-child(6) {
+        background-image: url("assets/rambutan.png");
+        animation-delay: 2.5s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .download-button {
+        position: relative;
+        margin-top: 5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        transform: translateY(20px);
+      }
+
+      .download-button:hover {
+        transform: translateY(20px) scale(1.05);
+      }
+
+      .button-bg {
+        width: 500px;
+        height: 120px;
+        background-image: url("assets/rec-button.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.4));
+      }
+
+      .button-text {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+        font-style: italic;
+        margin-top: 10px;
+        margin-right: 18px;
+        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9);
+        z-index: 2;
+        font-family: "Metal", serif;
+      }
+
+      /* About Section */
+      .about-section {
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        margin: 6rem auto 4rem;
+        padding: 0 2rem;
+        z-index: 10;
+      }
+
+      .about-container {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 201, 162, 0.25) 0%,
+          rgba(237, 151, 65, 0.2) 100%
+        );
+        border: 4px solid #8b4513;
+        border-radius: 25px;
+        padding: 4rem;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .about-container::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(139, 69, 19, 0.05) 0%,
+          transparent 70%
+        );
+        animation: rotate 20s linear infinite;
+        z-index: -1;
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .about-title {
+        font-size: 4rem;
+        font-weight: bold;
+        font-style: italic;
+        color: #8b4513;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+        margin-bottom: 3rem;
+        text-align: center;
+        font-family: "Metal", serif;
+      }
+
+      .about-content {
+        color: #5d4037;
+        line-height: 1.9;
+        font-size: 1.2rem;
+        text-align: justify;
+        font-family: "Metal", serif;
+      }
+
+      .about-content h3 {
+        font-size: 2.2rem;
+        color: #8b4513;
+        margin: 3rem 0 1.5rem;
+        font-family: "Metal", serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .about-content h4 {
+        font-size: 1.6rem;
+        color: #6d4c41;
+        margin: 2rem 0 1rem;
+        font-weight: bold;
+      }
+
+      /* Visual Elements */
+      .fruit-hierarchy {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin: 2rem 0;
+        padding: 2rem;
+        background: rgba(139, 69, 19, 0.05);
+        border-radius: 15px;
+        border: 2px dashed #8b4513;
+      }
+
+      .fruit-level {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        border: 2px solid #8b4513;
+        transition: transform 0.3s ease;
+      }
+
+      .fruit-level:hover {
+        transform: scale(1.05);
+      }
+
+      .fruit-level-image {
+        width: 80px;
+        height: 80px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 0 auto 1rem;
+        filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+      }
+
+      .fruit-level-name {
+        font-weight: bold;
+        color: #8b4513;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+
+      .fruit-level-points {
+        color: #d32f2f;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .merge-demo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        padding: 2rem;
+        background: rgba(139, 69, 19, 0.08);
+        border-radius: 15px;
+        border: 2px solid #8b4513;
+      }
+
+      .merge-fruit {
+        width: 60px;
+        height: 60px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .merge-arrow {
+        font-size: 2rem;
+        color: #8b4513;
+        font-weight: bold;
+      }
+
+      .merge-equals {
+        font-size: 2rem;
+        color: #d32f2f;
+        font-weight: bold;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .dev-team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .dev-member {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(139, 69, 19, 0.1);
+        border-radius: 15px;
+        border: 2px solid #8b4513;
+        transition: transform 0.3s ease;
+      }
+
+      .dev-member:hover {
+        transform: translateY(-5px);
+      }
+
+      .dev-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #8b4513;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .dev-name {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #8b4513;
+        margin-bottom: 0.5rem;
+      }
+
+      .dev-role {
+        color: #6d4c41;
+        font-style: italic;
+      }
+
+      .tech-stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1rem 0;
+        justify-content: center;
+      }
+
+      .tech-item {
+        padding: 0.5rem 1rem;
+        background: rgba(139, 69, 19, 0.1);
+        border: 2px solid #8b4513;
+        border-radius: 20px;
+        font-weight: bold;
+        color: #8b4513;
+        font-size: 0.9rem;
+      }
+
+      .fruit-list {
+        margin: 1rem 0;
+        padding-left: 2rem;
+      }
+
+      .fruit-item {
+        margin: 0.5rem 0;
+        font-weight: 500;
+      }
+
+      .team-section {
+        background: rgba(139, 69, 19, 0.05);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .about-content h3 {
+        text-align: left;
+      }
+
+      .team-member {
+        display: inline-block;
+        margin: 0.5rem 1rem;
+        font-weight: bold;
+        color: #8b4513;
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .title {
+          font-size: 4.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .fruits-grid {
+          max-width: 450px;
+          gap: 25px;
+        }
+
+        .fruit {
+          width: 110px;
+          height: 110px;
+        }
+
+        .download-button {
+          transform: translateY(10px);
+        }
+
+        .download-button:hover {
+          transform: translateY(10px) scale(1.05);
+        }
+
+        .button-bg {
+          width: 300px;
+          height: 80px;
+        }
+
+        .button-text {
+          font-size: 1.5rem;
+        }
+
+        .about-container {
+          padding: 2rem 1.5rem;
+        }
+
+        .about-title {
+          font-size: 2.5rem;
+        }
+
+        .about-content {
+          font-size: 1rem;
+        }
+
+        .about-content h3 {
+          font-size: 1.6rem;
+        }
+
+        .about-content h4 {
+          font-size: 1.3rem;
+        }
+
+        .fruit-hierarchy {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        .merge-demo {
+          flex-direction: row;
+          flex-wrap: nowrap;
+          gap: 0.8rem;
+          overflow-x: auto;
+        }
+
+        .merge-fruit {
+          width: 50px;
+          height: 50px;
+        }
+
+        .dev-team-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .dev-avatar {
+          width: 80px;
+          height: 80px;
+          font-size: 1.5rem;
+        }
+      }
+
+      /* Particle effects */
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #ffd700;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: sparkle 2s linear infinite;
+      }
+
+      @keyframes sparkle {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scale(0);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-50px) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-100px) scale(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fixed-overlay"></div>
+
+    <div class="container">
+      <h1 class="title">ជូរអែម</h1>
+
+      <div class="fruits-grid">
+        <div class="fruit"></div>
+        <div class="fruit"></div>
+        <div class="fruit"></div>
+        <div class="fruit"></div>
+        <div class="fruit"></div>
+        <div class="fruit"></div>
+      </div>
+
+      <div class="download-button" onclick="downloadGame()">
+        <div class="button-bg">
+          <span class="button-text">ទាញយក</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <div class="about-container">
+        <h2 class="about-title">អំពីហ្គេមជូរអែម</h2>
+        <div class="about-content">
+          <p>
+            ជូរអែម គឺជាហ្គេមផ្គុំផ្លែឈើដ៏គួរឱ្យចាប់អារម្មណ៍
+            ដែលបានបំផុសគំនិតពីវប្បធម៌និងទេសភាពដ៏សម្បូរបែបរបស់ប្រទេសកម្ពុជា។
+          </p>
+
+          <h3>ការណែនាំ</h3>
+          <p>
+            ជូរអែម
+            គឺជាហ្គេមផ្គុំធម្មតាដែលត្រូវបានបំផុសគំនិតដោយយន្តការផ្គុំផ្លែឈើបុរាណ
+            ដែលត្រូវបានបង្កើតឡើងវិញតាមរយៈបរិយាកាសនៃព្រៃវត្តកម្ពុជា។
+            អ្នកលេងត្រូវគ្រប់គ្រងជង់ផ្លែឈើដែលកំពុងលូតលាស់
+            ដោយផ្គុំវាដើម្បីវិវត្តន៍តាមរយៈឋានានុក្រមនៃរសជាតិក្នុងស្រុក
+            ទាំងអស់នេះនៅពេលដែលកំពុងរុករកនៅក្នុងធុងថ្មចម្លាក់។
+            ហ្គេមនេះមានលក្ខណៈពិសេសជាភាសាខ្មែរពេញលេញ
+            ដោយប្រើលេខខ្មែរបុរាណសម្រាប់ពិន្ទុនិងចំណាត់ថ្នាក់
+            ដើម្បីផ្តល់បទពិសោធន៍ពិតប្រាកដ។
+          </p>
+
+          <h3>យន្តការហ្គេម</h3>
+          <h4>គោលបំណង</h4>
+          <p>
+            គោលដៅចម្បងគឺដើម្បីសម្រេចបានពិន្ទុខ្ពស់បំផុតដោយការផ្គុំផ្លែឈើដូចគ្នា។
+            ការផ្គុំនីមួយៗនឹងធ្វើឱ្យផ្លែឈើវិវត្តន៍ទៅកម្រិតបន្ទាប់នៃឋានានុក្រម
+            ដោយផ្តល់ពិន្ទុដោយផ្អែកលើទំហំនិងភាពកម្រនៃផ្លែឈើដែលបានបង្កើត។
+          </p>
+
+          <h4>ច្បាប់សំខាន់ៗ</h4>
+          <p>
+            <strong>តក្កវិជ្ជាផ្គុំ:</strong>
+            នៅពេលផ្លែឈើពីរដែលមានប្រភេទដូចគ្នាបុកគ្នា
+            វាចេញសម្លេងនិងផ្លាស់ប្តូរទៅជាផ្លែឈើតែមួយនៃកម្រិតបន្ទាប់។
+          </p>
+          <p>
+            <strong>រូបវិទ្យានិងការជង់:</strong>
+            ផ្លែឈើមានទម្ងន់និងភាពបត់បែនខុសៗគ្នា។
+            ការជង់ប្រកបដោយប្រសិទ្ធភាពគឺសំខាន់ណាស់ដើម្បីបង្កើនទំហំនៅក្នុងធុងវត្ត។
+          </p>
+          <p>
+            <strong>លក្ខខណ្ឌចាញ់:</strong>
+            ប្រសិនបើផ្លែឈើណាមួយស្ថិតនៅលើព្រំដែនខាងលើនៃធុងរយៈពេលយូរពេក
+            ព្រៃបុរាណនឹងដណ្តើមយកវិញ—ចាញ់ហ្គេម។
+          </p>
+
+          <h4>ឋានានុក្រមផ្លែឈើ (៦កម្រិត)</h4>
+          <div class="fruit-hierarchy">
+            <div class="fruit-level">
+              <div
+                class="fruit-level-image"
+                style="background-image: url('assets/logan.png')"
+              ></div>
+              <div class="fruit-level-name">មៀន</div>
+              <div class="fruit-level-points">+១០</div>
+            </div>
+            <div class="fruit-level">
+              <div
+                class="fruit-level-image"
+                style="background-image: url('assets/rambutan.png')"
+              ></div>
+              <div class="fruit-level-name">សាវម៉ាវ</div>
+              <div class="fruit-level-points">+២០</div>
+            </div>
+            <div class="fruit-level">
+              <div
+                class="fruit-level-image"
+                style="background-image: url('assets/magosteen.png')"
+              ></div>
+              <div class="fruit-level-name">មង្ឃុត</div>
+              <div class="fruit-level-points">+៤០</div>
+            </div>
+            <div class="fruit-level">
+              <div
+                class="fruit-level-image"
+                style="background-image: url('assets/custard.png')"
+              ></div>
+              <div class="fruit-level-name">ទៀប</div>
+              <div class="fruit-level-points">+៨០</div>
+            </div>
+            <div class="fruit-level">
+              <div
+                class="fruit-level-image"
+                style="background-image: url('assets/palm.png')"
+              ></div>
+              <div class="fruit-level-name">ត្នោត</div>
+              <div class="fruit-level-points">+១៦០</div>
+            </div>
+            <div class="fruit-level">
+              <div
+                class="fruit-level-image"
+                style="background-image: url('assets/durian.png')"
+              ></div>
+              <div class="fruit-level-name">ធុរេន</div>
+              <div class="fruit-level-points">+៣២០</div>
+            </div>
+          </div>
+
+          <h4>តក្កវិជ្ជាផ្គុំ</h4>
+          <div class="merge-demo">
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/logan.png')"
+            ></div>
+            <div class="merge-arrow">+</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/logan.png')"
+            ></div>
+            <div class="merge-equals">=</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/rambutan.png')"
+            ></div>
+          </div>
+          <p
+            style="
+              text-align: center;
+              font-style: italic;
+              color: #8b4513;
+              margin-top: 1rem;
+            "
+          >
+            មៀន + មៀន = សាវម៉ាវ (ពិន្ទុ +២០)
+          </p>
+
+          <div class="merge-demo">
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/rambutan.png')"
+            ></div>
+            <div class="merge-arrow">+</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/rambutan.png')"
+            ></div>
+            <div class="merge-equals">=</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/magosteen.png')"
+            ></div>
+          </div>
+          <p
+            style="
+              text-align: center;
+              font-style: italic;
+              color: #8b4513;
+              margin-top: 1rem;
+            "
+          >
+            សាវម៉ាវ + សាវម៉ាវ = មង្ឃុត (ពិន្ទុ +៤០)
+          </p>
+
+          <div class="merge-demo">
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/magosteen.png')"
+            ></div>
+            <div class="merge-arrow">+</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/magosteen.png')"
+            ></div>
+            <div class="merge-equals">=</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/custard.png')"
+            ></div>
+          </div>
+          <p
+            style="
+              text-align: center;
+              font-style: italic;
+              color: #8b4513;
+              margin-top: 1rem;
+            "
+          >
+            មង្ឃុត + មង្ឃុត = ទៀប (ពិន្ទុ +៨០)
+          </p>
+
+          <div class="merge-demo">
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/custard.png')"
+            ></div>
+            <div class="merge-arrow">+</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/custard.png')"
+            ></div>
+            <div class="merge-equals">=</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/palm.png')"
+            ></div>
+          </div>
+          <p
+            style="
+              text-align: center;
+              font-style: italic;
+              color: #8b4513;
+              margin-top: 1rem;
+            "
+          >
+            ទៀប + ទៀប = ត្នោត (ពិន្ទុ +១៦០)
+          </p>
+
+          <div class="merge-demo">
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/palm.png')"
+            ></div>
+            <div class="merge-arrow">+</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/palm.png')"
+            ></div>
+            <div class="merge-equals">=</div>
+            <div
+              class="merge-fruit"
+              style="background-image: url('assets/durian.png')"
+            ></div>
+          </div>
+          <p
+            style="
+              text-align: center;
+              font-style: italic;
+              color: #8b4513;
+              margin-top: 1rem;
+            "
+          >
+            ត្នោត + ត្នោត = ធុរេន (ពិន្ទុ +៣២០)
+          </p>
+
+          <h3>ស្ថាបត្យកម្មបច្ចេកទេស</h3>
+
+          <div class="tech-stack">
+            <div class="tech-item">Unity 2022.3</div>
+            <div class="tech-item">Express.js</div>
+            <div class="tech-item">MongoDB</div>
+          </div>
+
+          <h3>ក្រុមអភិវឌ្ឍន៍</h3>
+          <p style="margin-bottom: 2rem">
+            គម្រោងនេះត្រូវបានរចនា និងអភិវឌ្ឍដោយ:
+          </p>
+
+          <div class="dev-team-grid">
+            <div class="dev-member">
+              
+              <div class="dev-name">អោយ ច័ន្ទរក្សា</div>
+            </div>
+
+            <div class="dev-member">
+              
+              <div class="dev-name">កែវ ហេងណៃតុង</div>
+            </div>
+
+            <div class="dev-member">
+              
+              <div class="dev-name">សៅ វិសាល</div>
+            </div>
+          </div>
+
+          <p style="margin-top: 2rem; font-style: italic; color: #6d4c41">
+            បង្កើតជាផ្នែកមួយនៃកម្មវិធីសិក្សាអភិវឌ្ឍន៍ហ្គេមឆ្នាំទី៣<br />
+            សាកលវិទ្យាល័យ CADT
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Fruit animation enhancements
+      function addRandomMovement() {
+        const fruits = document.querySelectorAll(".fruit");
+        fruits.forEach((fruit, index) => {
+          setInterval(() => {
+            const randomX = (Math.random() - 0.5) * 20;
+            const randomY = (Math.random() - 0.5) * 20;
+            fruit.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+            setTimeout(() => {
+              fruit.style.transform = "translate(0, 0)";
+            }, 1000);
+          }, 3000 + index * 500);
+        });
+      }
+
+      // Particle effects
+      function createParticle(x, y) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = x + "px";
+        particle.style.top = y + "px";
+        document.body.appendChild(particle);
+
+        setTimeout(() => {
+          particle.remove();
+        }, 2000);
+      }
+
+      // Add sparkle effects around fruits
+      function addSparkleEffects() {
+        const fruits = document.querySelectorAll(".fruit");
+        fruits.forEach((fruit) => {
+          setInterval(() => {
+            const rect = fruit.getBoundingClientRect();
+            const x = rect.left + Math.random() * rect.width;
+            const y = rect.top + Math.random() * rect.height;
+            createParticle(x, y);
+          }, 2000);
+        });
+      }
+
+      // Download function
+      function downloadGame() {
+        // Add click animation
+        const button = document.querySelector(".download-button");
+        button.style.transform = "scale(0.95)";
+        setTimeout(() => {
+          button.style.transform = "scale(1.05)";
+          setTimeout(() => {
+            button.style.transform = "scale(1)";
+          }, 100);
+        }, 100);
+
+        // Create sparkle effect on click
+        const rect = button.getBoundingClientRect();
+        for (let i = 0; i < 10; i++) {
+          setTimeout(() => {
+            const x = rect.left + Math.random() * rect.width;
+            const y = rect.top + Math.random() * rect.height;
+            createParticle(x, y);
+          }, i * 50);
+        }
+
+        // Simulate download (replace with actual download link)
+        alert(
+          "ការទាញយកនឹងចាប់ផ្តើមក្នុងពេលបន្តិច! (Download will start shortly!)"
+        );
+
+        // You can replace this with actual download logic:
+        // window.location.href = 'path/to/your/game.apk';
+      }
+
+      // Handle orientation change for background
+      function handleOrientationChange() {
+        // Force a repaint to ensure background changes
+        document.body.style.display = "none";
+        document.body.offsetHeight; // Trigger reflow
+        document.body.style.display = "";
+      }
+
+      // Initialize animations
+      document.addEventListener("DOMContentLoaded", () => {
+        addRandomMovement();
+        addSparkleEffects();
+
+        // Listen for orientation changes
+        window.addEventListener("orientationchange", () => {
+          setTimeout(handleOrientationChange, 100);
+        });
+
+        // Also listen for resize events
+        window.addEventListener("resize", handleOrientationChange);
+      });
+
+      // Add hover effects to fruits
+      document.addEventListener("DOMContentLoaded", () => {
+        const fruits = document.querySelectorAll(".fruit");
+        fruits.forEach((fruit) => {
+          fruit.addEventListener("mouseenter", () => {
+            fruit.style.animationPlayState = "paused";
+            fruit.style.transform = "scale(1.2) rotate(10deg)";
+          });
+
+          fruit.addEventListener("mouseleave", () => {
+            fruit.style.animationPlayState = "running";
+            fruit.style.transform = "scale(1) rotate(0deg)";
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
