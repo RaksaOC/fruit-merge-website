@@ -30,20 +30,30 @@ Merge identical fruits to evolve them into higher-level fruits and earn points:
 
 <div align="center">
 
-![Game Screenshot 1](assets/game-pic/image1.png)
-_Main game interface with temple jungle background_
-
-![Game Screenshot 2](assets/game-pic/image2.png)
-_Fruit merging mechanics in action_
-
-![Game Screenshot 3](assets/game-pic/image3.png)
-_Score system and fruit hierarchy_
-
-![Game Screenshot 4](assets/game-pic/image4.png)
-_Mobile responsive gameplay_
-
-![Game Screenshot 5](assets/game-pic/image5.png)
-_Game over screen and final scoring_
+<table>
+  <tr>
+    <td>
+      <img src="./assets/game-pic/image5.png" alt="Game Screenshot 5" width="180"><br>
+      <sub>Welcome scene with play button, leaderboard button and info button</sub>
+    </td>
+    <td>
+      <img src="./assets/game-pic/image4.png" alt="Game Screenshot 4" width="180"><br>
+      <sub>Leaderboard scene showing score ranking with game id</sub>
+    </td>
+    <td>
+      <img src="./assets/game-pic/image3.png" alt="Game Screenshot 3" width="180"><br>
+      <sub>Info Scene</sub>
+    </td>
+    <td>
+      <img src="./assets/game-pic/image2.png" alt="Game Screenshot 2" width="180"><br>
+      <sub>Fruit merging mechanics in action and main gameplay scene</sub>
+    </td>
+    <td>
+      <img src="./assets/game-pic/image1.png" alt="Game Screenshot 1" width="180"><br>
+      <sub>Game over screen and final scoring</sub>
+    </td>
+  </tr>
+</table>
 
 </div>
 
