@@ -26,12 +26,11 @@ Merge identical fruits to evolve them into higher-level fruits and earn points:
 
 **Goal**: Achieve the highest score by strategic fruit placement and merging!
 
-
 ## 🎬 Demo Video
 
 Watch the game in action! See the complete gameplay experience from start to finish:
 
-[![Watch Demo](game-pic/image5.png)](https://www.youtube.com/watch?v=7kMyU8soRTQ)
+[![Watch Demo](./assets/game-pic/image5.png)](https://www.youtube.com/watch?v=7kMyU8soRTQ)
 
 ## 📱 Game Screenshots
 
