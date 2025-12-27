@@ -29,3 +29,5 @@
 ### Demo Video: 
 
 https://www.youtube.com/watch?v=7kMyU8soRTQ
+
+Demo video can also be found in all repositories (in file, in the README and in the showcase website)
