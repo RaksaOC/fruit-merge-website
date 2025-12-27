@@ -108,6 +108,6 @@ This game celebrates Cambodian culture through:
 
 **Experience the mystical world of Cambodian temple jungles while enjoying classic puzzle gameplay!**
 
-[🌐 Visit Website](https://raksaoc.github.io/fruit-merge-website/) | [📱 Download APK](./assets/jou-em.apk)
+[🌐 Visit Website](https://raksaoc.github.io/fruit-merge-website/) | [📱 Download APK](https://raksaoc.github.io/fruit-merge-website/assets/jou-em.apk)
 
 </div>
